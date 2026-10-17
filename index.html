@@ -1,72 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Saudia Jobs Official - Admin & Login</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saudia Jobs Official - Final</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;800;900&display=swap" rel="stylesheet">
-<style>body{font-family:'Inter',sans-serif}</style>
 </head>
 <body class="bg-[#f8faf6]">
-<div class="bg-[#0a3320] text-white text-[11px] py-2 px-4 flex justify-between"><span>🔥 <span id="jobCount">12,847</span> Jobs Today</span><button onclick="document.getElementById('login').classList.remove('hidden')" class="underline">Login / Signup</button></div>
-
-<header class="bg-white sticky top-0 z-40 border-b">
-<div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-<div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0a5c36] to-[#22c55e] text-white flex items-center justify-center font-black">S</div><div><div class="font-black">SAUDIA JOBS</div><div class="text-[9px] tracking-widest text-green-700 font-bold">OFFICIAL • ADMIN</div></div></div>
-<div class="flex gap-2"><button onclick="document.getElementById('admin').classList.toggle('hidden')" class="text-xs bg-zinc-100 px-3 py-2 rounded-full">⚙️ Admin</button><button onclick="document.getElementById('postJob').classList.remove('hidden')" class="bg-zinc-900 text-white px-5 py-2.5 rounded-full text-sm font-bold">+ Post Job</button></div>
+<div class="bg-[#0a3320] text-white text-[11px] py-2 px-4 flex justify-between">
+<span>🔥 12,847 Jobs | Lifetime Free - No Timer</span>
+<button id="loginBtn" onclick="localStorage.setItem('user','1');this.innerText='✅ Logged In'" class="bg-white text-black px-3 py-1 rounded-full font-bold">Login</button>
+</div>
+<header class="bg-white p-4 flex justify-between sticky top-0 border-b">
+<b>SAUDIA JOBS OFFICIAL</b>
+<div class="flex gap-2">
+<button onclick="openAdmin()" class="bg-zinc-100 px-3 py-1 rounded-full text-xs">⚙️ Admin</button>
+<button onclick="document.getElementById('post').classList.remove('hidden')" class="bg-black text-white px-3 py-1 rounded-full text-xs">+ Post Job</button>
 </div>
 </header>
-
-<!-- LOGIN MODAL -->
-<div id="login" class="hidden fixed inset-0 z-[99] bg-black/60 flex items-center justify-center p-4">
-<div class="bg-white rounded-[28px] p-6 w-full max-w-sm">
-<h2 class="font-black text-xl">Login to continue</h2><p class="text-xs text-zinc-500 mt-1">Google / Facebook / Phone OTP</p>
-<button class="w-full mt-4 border py-3 rounded-xl text-sm font-bold flex justify-center gap-2">🔵 Continue with Google</button>
-<button class="w-full mt-2 bg-[#1877F2] text-white py-3 rounded-xl text-sm font-bold">Continue with Facebook</button>
-<div class="mt-4 border-t pt-4"><input id="phone" placeholder="03xx-xxxxxxx" class="w-full border rounded-xl p-3 text-sm"><button onclick="alert('OTP sent to '+phone.value+' (Demo: 1234)')" class="w-full mt-2 bg-[#0a5c36] text-white py-3 rounded-xl font-bold text-sm">Send OTP Code</button><input placeholder="Enter 4-digit code" class="w-full border rounded-xl p-3 text-sm mt-2"></div>
-<button onclick="document.getElementById('login').classList.add('hidden');localStorage.setItem('user','logged');alert('Login Success!')" class="w-full mt-3 bg-black text-white py-3 rounded-xl font-bold text-sm">Verify & Login</button>
-<button onclick="document.getElementById('login').classList.add('hidden')" class="w-full mt-2 text-xs text-zinc-500">Close</button>
+<div class="p-4 max-w-6xl mx-auto">
+<div id="jobs" class="grid md:grid-cols-2 gap-4 mt-4"></div>
+<div class="mt-10 bg-black text-white p-5 rounded-2xl">
+<b>Owner Panel (Tumhara)</b><br>
+<button onclick="let t=prompt('Title');if(t){jobs.unshift({t,c:'Admin',s:'Good Salary'});save()}" class="bg-white text-black px-3 py-2 rounded-full text-xs mt-2">+ Add Job</button>
+<button onclick="localStorage.clear();jobs=[];render()" class="bg-zinc-800 text-white px-3 py-2 rounded-full text-xs mt-2 ml-2">Clear All</button>
+<p class="text-[10px] mt-3 opacity-50">Live Link: saudiajobsofficial-wq.github.io/saudia-jobs-website/</p>
 </div>
 </div>
-
-<!-- ADMIN PANEL -->
-<div id="admin" class="hidden max-w-6xl mx-auto px-4 mt-4">
-<div class="bg-zinc-900 text-white rounded-[24px] p-5">
-<h2 class="font-black">⚙️ Admin Control - Tumhara Panel</h2><p class="text-xs opacity-60">Yahan se tum bina code ke sab change kar sakte ho</p>
-<div class="grid md:grid-cols-3 gap-3 mt-4">
-<input id="aTitle" placeholder="Job Title: e.g. Driver Riyadh" class="rounded-xl p-3 text-sm text-black">
-<input id="aCompany" placeholder="Company Name" class="rounded-xl p-3 text-sm text-black">
-<input id="aSalary" placeholder="Salary: SAR 2500" class="rounded-xl p-3 text-sm text-black">
-</div>
-<button onclick="addJob()" class="mt-3 bg-green-500 text-black px-5 py-2 rounded-full font-bold text-sm">+ Add Job Now</button>
-<button onclick="localStorage.clear();location.reload()" class="mt-3 ml-2 bg-white/10 px-5 py-2 rounded-full text-sm">Reset All</button>
-<p class="text-[10px] opacity-50 mt-2">Tip: Ye jobs auto save ho jayengi, user ko foran dikhengi. Bahar mulk wale jo bhejenge wo bhi yahan ayengi approval ke liye.</p>
+<div id="post" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center p-4">
+<div class="bg-white p-6 rounded-[24px] w-full max-w-md">
+<b>Auto Post Job (Bahir mulk walo ke liye)</b>
+<input id="pt" placeholder="Job Title" class="w-full border p-3 rounded-xl mt-3">
+<input id="pc" placeholder="Company" class="w-full border p-3 rounded-xl mt-2">
+<button onclick="jobs.unshift({t:pt.value,c:pc.value,s:'As per interview'});save();document.getElementById('post').classList.add('hidden');pt.value='';pc.value=''" class="w-full bg-black text-white py-3 rounded-xl mt-3">Post Live</button>
+<button onclick="document.getElementById('post').classList.add('hidden')" class="w-full bg-zinc-100 py-2 rounded-xl mt-2">Cancel</button>
 </div>
 </div>
-
-<!-- POST JOB (for outsiders - auto) -->
-<div id="postJob" class="hidden fixed inset-0 z-[99] bg-black/60 flex items-center justify-center p-4">
-<div class="bg-white rounded-[28px] p-6 w-full max-w-sm">
-<h2 class="font-black">Post a Job (Auto)</h2><p class="text-xs text-zinc-500">Bahar mulk se bhejoge toh Admin approval ke baad live hoga</p>
-<input id="pTitle" placeholder="Job Title" class="w-full border rounded-xl p-3 text-sm mt-3"><input id="pComp" placeholder="Company" class="w-full border rounded-xl p-3 text-sm mt-2"><input id="pSal" placeholder="Salary" class="w-full border rounded-xl p-3 text-sm mt-2">
-<button onclick="addJob(true);document.getElementById('postJob').classList.add('hidden')" class="w-full mt-3 bg-[#0a5c36] text-white py-3 rounded-xl font-bold">Submit for Approval</button>
-<button onclick="document.getElementById('postJob').classList.add('hidden')" class="w-full mt-2 text-xs">Close</button>
-</div>
-</div>
-
-<div class="max-w-6xl mx-auto px-4 py-6">
-<h1 class="text-4xl font-black tracking-tighter">Get hired in <span class="text-green-600">Saudi Arabia</span> in 7 days.</h1>
-<div class="mt-4 bg-white rounded-[20px] p-2 flex shadow border"><input id="search" placeholder="Search driver, factory..." class="flex-1 px-3 outline-none text-sm"><button class="bg-[#0a5c36] text-white px-6 py-3 rounded-[14px] font-bold text-sm">Search</button></div>
-<div id="jobs" class="grid md:grid-cols-2 gap-4 mt-6"></div>
-</div>
-
 <script>
-let defaultJobs=[{t:"Heavy Truck Driver - Riyadh",c:"Almarai Co.",s:"SAR 3000 + Food"},{t:"Factory Helper - Jeddah",c:"Noon Warehouse",s:"SAR 1800 + OT"}];
-let jobs=JSON.parse(localStorage.getItem('jobs')||JSON.stringify(defaultJobs));
-function render(){let q=(document.getElementById('search').value||'').toLowerCase();document.getElementById('jobs').innerHTML=jobs.filter(j=>JSON.stringify(j).toLowerCase().includes(q)).map((j,i)=>`<div class="bg-white rounded-[20px] border p-5"><div class="flex justify-between"><b>${j.c}</b><button onclick="jobs.splice(${i},1);save()" class="text-[10px] bg-zinc-100 px-2 py-1 rounded-full">Delete (Admin)</button></div><div class="font-bold text-lg mt-2">${j.t}</div><div class="text-xs bg-zinc-100 inline-block px-2 py-1 rounded-full mt-2">${j.s}</div><a href="https://wa.me/923000000000" class="block mt-3 bg-black text-white text-center py-3 rounded-xl font-bold text-sm">Apply WhatsApp</a></div>`).join('');document.getElementById('jobCount').innerText=jobs.length+12450}
-function save(){localStorage.setItem('jobs',JSON.stringify(jobs));render()}
-function addJob(fromPost=false){let t=fromPost?document.getElementById('pTitle').value:document.getElementById('aTitle').value;let c=fromPost?document.getElementById('pComp').value:document.getElementById('aCompany').value;let s=fromPost?document.getElementById('pSal').value:document.getElementById('aSalary').value;if(!t)return alert('Title likho');jobs.unshift({t,c:c||'Direct Company',s:s||'Good Salary'});save();alert(fromPost?'Job sent to Admin for approval! (Auto approved in demo)':'Job Added Live!')}
-document.getElementById('search').addEventListener('input',render);render();
+let jobs=JSON.parse(localStorage.getItem('j')||'null')||[{t:'Heavy Driver - Riyadh',c:'Almarai',s:'SAR 3000'},{t:'Factory Helper - Jeddah',c:'Noon',s:'SAR 1800 + OT'}];
+function render(){jobsEl=document.getElementById('jobs');jobsEl.innerHTML=jobs.map((j,i)=>`<div class="bg-white p-4 rounded-2xl border"><div class="text-[10px] opacity-60">${j.c}</div><div class="font-bold">${j.t}</div><div class="text-xs bg-zinc-100 inline-block px-2 py-1 rounded-full mt-1">${j.s}</div><button onclick="jobs.splice(${i},1);save()" class="block mt-3 w-full bg-black text-white py-2 rounded-xl text-xs">Delete / Apply</button></div>`).join('')}
+function save(){localStorage.setItem('j',JSON.stringify(jobs));render()}
+function openAdmin(){let t=prompt('Job Title?');if(t){jobs.unshift({t,c:prompt('Company?'),s:prompt('Salary?')});save()}}
+render();
 </script>
 </body>
 </html>
